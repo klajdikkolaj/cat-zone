@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, HttpException, HttpStatus } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { PrismaService } from '../prisma/services';
 import { ConfigService } from '@nestjs/config';
@@ -35,7 +35,6 @@ export class FlickrService {
                 }),
             );
 
-
             const photos = response.data.photos.photo.map((item) => ({
                 publishedAt: new Date(),
                 imageUrl: `https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}.jpg`,
@@ -47,52 +46,85 @@ export class FlickrService {
             });
         } catch (error) {
             this.logger.error('Error fetching or storing photos', error);
-            throw error;
+            throw new HttpException('Error fetching or storing photos', HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     async getPhotos(params: { skip: number; take: number }) {
-        const photos = await this.prisma.photo.findMany({
-            skip: params.skip,
-            take: params.take,
-            orderBy: { publishedAt: 'desc' },
-        });
-        return photos.map(photo => ({
-            ...photo,
-            id: photo.id.toString(), // Convert BigInt to string
-        }));
+        try {
+            const photos = await this.prisma.photo.findMany({
+                skip: params.skip,
+                take: params.take,
+                orderBy: { publishedAt: 'desc' },
+            });
+
+            return photos.map(photo => ({
+                ...photo,
+                id: photo.id.toString(), // Convert BigInt to string
+            }));
+        } catch (error) {
+            this.logger.error('Error fetching photos', error);
+            throw new HttpException('Error fetching photos', HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     async getTags() {
-        const tags:any[] = await this.prisma.$queryRaw`
-      SELECT UNNEST(tags) as tag, COUNT(*) as count
-      FROM "Photo"
-      GROUP BY tag
-      ORDER BY count DESC
-      LIMIT 10;
-    `;
-        return tags.map(tag => ({
-            tag: tag.tag,
-            count: Number(tag.count), // Convert BigInt to number
-        }));
+        try {
+            const tags : any[] = await this.prisma.$queryRaw`
+        SELECT UNNEST(tags) as tag, COUNT(*) as count
+        FROM "Photo"
+        WHERE 'cat' = ANY(tags)
+        GROUP BY tag
+        ORDER BY count DESC
+        LIMIT 10;
+      `;
+
+            return tags.map(tag => ({
+                tag: tag.tag,
+                count: Number(tag.count), // Convert BigInt to number
+            }));
+        } catch (error) {
+            this.logger.error('Error fetching tags', error);
+            throw new HttpException('Error fetching tags', HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     async getPhotosByTag(tag: string, params: { skip: number; take: number }) {
-        return this.prisma.photo.findMany({
-            where: {
-                tags: {
-                    has: tag,
+        try {
+            const photos = await this.prisma.photo.findMany({
+                where: {
+                    tags: {
+                        has: tag,
+                    },
                 },
-            },
-            skip: params.skip,
-            take: params.take,
-            orderBy: { publishedAt: 'desc' },
-        });
+                skip: params.skip,
+                take: params.take,
+                orderBy: { publishedAt: 'desc' },
+            });
+
+            return photos.map(photo => ({
+                ...photo,
+                id: photo.id.toString(), // Convert BigInt to string
+            }));
+        } catch (error) {
+            this.logger.error('Error fetching photos by tag', error);
+            throw new HttpException('Error fetching photos by tag', HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     async deletePhoto(id: number) {
-        return this.prisma.photo.delete({
-            where: { id},
-        });
+        try {
+            const photo = await this.prisma.photo.delete({
+                where: { id },
+            });
+
+            return {
+                ...photo,
+                id: photo.id.toString(), // Convert BigInt to string
+            };
+        } catch (error) {
+            this.logger.error('Error deleting photo', error);
+            throw new HttpException('Error deleting photo', HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
