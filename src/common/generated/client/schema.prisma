@@ -12,6 +12,6 @@ generator client {
 model Photo {
   id          Int      @id @default(autoincrement())
   publishedAt DateTime
-  url         String
+  imageUrl    String
   tags        String[]
 }

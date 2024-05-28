@@ -122,7 +122,7 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.PhotoScalarFieldEnum = {
   id: 'id',
   publishedAt: 'publishedAt',
-  url: 'url',
+  imageUrl: 'imageUrl',
   tags: 'tags'
 };
 
@@ -137,7 +137,7 @@ exports.Prisma.QueryMode = {
 };
 
 exports.Prisma.PhotoOrderByRelevanceFieldEnum = {
-  url: 'url',
+  imageUrl: 'imageUrl',
   tags: 'tags'
 };
 

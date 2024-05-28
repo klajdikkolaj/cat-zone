@@ -901,19 +901,19 @@ export namespace Prisma {
   export type PhotoMinAggregateOutputType = {
     id: number | null
     publishedAt: Date | null
-    url: string | null
+    imageUrl: string | null
   }
 
   export type PhotoMaxAggregateOutputType = {
     id: number | null
     publishedAt: Date | null
-    url: string | null
+    imageUrl: string | null
   }
 
   export type PhotoCountAggregateOutputType = {
     id: number
     publishedAt: number
-    url: number
+    imageUrl: number
     tags: number
     _all: number
   }
@@ -930,19 +930,19 @@ export namespace Prisma {
   export type PhotoMinAggregateInputType = {
     id?: true
     publishedAt?: true
-    url?: true
+    imageUrl?: true
   }
 
   export type PhotoMaxAggregateInputType = {
     id?: true
     publishedAt?: true
-    url?: true
+    imageUrl?: true
   }
 
   export type PhotoCountAggregateInputType = {
     id?: true
     publishedAt?: true
-    url?: true
+    imageUrl?: true
     tags?: true
     _all?: true
   }
@@ -1036,7 +1036,7 @@ export namespace Prisma {
   export type PhotoGroupByOutputType = {
     id: number
     publishedAt: Date
-    url: string
+    imageUrl: string
     tags: string[]
     _count: PhotoCountAggregateOutputType | null
     _avg: PhotoAvgAggregateOutputType | null
@@ -1062,14 +1062,14 @@ export namespace Prisma {
   export type PhotoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     publishedAt?: boolean
-    url?: boolean
+    imageUrl?: boolean
     tags?: boolean
   }, ExtArgs["result"]["photo"]>
 
   export type PhotoSelectScalar = {
     id?: boolean
     publishedAt?: boolean
-    url?: boolean
+    imageUrl?: boolean
     tags?: boolean
   }
 
@@ -1081,7 +1081,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       publishedAt: Date
-      url: string
+      imageUrl: string
       tags: string[]
     }, ExtArgs["result"]["photo"]>
     composites: {}
@@ -1505,7 +1505,7 @@ export namespace Prisma {
   interface PhotoFieldRefs {
     readonly id: FieldRef<"Photo", 'Int'>
     readonly publishedAt: FieldRef<"Photo", 'DateTime'>
-    readonly url: FieldRef<"Photo", 'String'>
+    readonly imageUrl: FieldRef<"Photo", 'String'>
     readonly tags: FieldRef<"Photo", 'String[]'>
   }
     
@@ -1812,7 +1812,7 @@ export namespace Prisma {
   export const PhotoScalarFieldEnum: {
     id: 'id',
     publishedAt: 'publishedAt',
-    url: 'url',
+    imageUrl: 'imageUrl',
     tags: 'tags'
   };
 
@@ -1836,7 +1836,7 @@ export namespace Prisma {
 
 
   export const PhotoOrderByRelevanceFieldEnum: {
-    url: 'url',
+    imageUrl: 'imageUrl',
     tags: 'tags'
   };
 
@@ -1913,14 +1913,14 @@ export namespace Prisma {
     NOT?: PhotoWhereInput | PhotoWhereInput[]
     id?: IntFilter<"Photo"> | number
     publishedAt?: DateTimeFilter<"Photo"> | Date | string
-    url?: StringFilter<"Photo"> | string
+    imageUrl?: StringFilter<"Photo"> | string
     tags?: StringNullableListFilter<"Photo">
   }
 
   export type PhotoOrderByWithRelationAndSearchRelevanceInput = {
     id?: SortOrder
     publishedAt?: SortOrder
-    url?: SortOrder
+    imageUrl?: SortOrder
     tags?: SortOrder
     _relevance?: PhotoOrderByRelevanceInput
   }
@@ -1931,14 +1931,14 @@ export namespace Prisma {
     OR?: PhotoWhereInput[]
     NOT?: PhotoWhereInput | PhotoWhereInput[]
     publishedAt?: DateTimeFilter<"Photo"> | Date | string
-    url?: StringFilter<"Photo"> | string
+    imageUrl?: StringFilter<"Photo"> | string
     tags?: StringNullableListFilter<"Photo">
   }, "id">
 
   export type PhotoOrderByWithAggregationInput = {
     id?: SortOrder
     publishedAt?: SortOrder
-    url?: SortOrder
+    imageUrl?: SortOrder
     tags?: SortOrder
     _count?: PhotoCountOrderByAggregateInput
     _avg?: PhotoAvgOrderByAggregateInput
@@ -1953,53 +1953,53 @@ export namespace Prisma {
     NOT?: PhotoScalarWhereWithAggregatesInput | PhotoScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Photo"> | number
     publishedAt?: DateTimeWithAggregatesFilter<"Photo"> | Date | string
-    url?: StringWithAggregatesFilter<"Photo"> | string
+    imageUrl?: StringWithAggregatesFilter<"Photo"> | string
     tags?: StringNullableListFilter<"Photo">
   }
 
   export type PhotoCreateInput = {
     publishedAt: Date | string
-    url: string
+    imageUrl: string
     tags?: PhotoCreatetagsInput | string[]
   }
 
   export type PhotoUncheckedCreateInput = {
     id?: number
     publishedAt: Date | string
-    url: string
+    imageUrl: string
     tags?: PhotoCreatetagsInput | string[]
   }
 
   export type PhotoUpdateInput = {
     publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    url?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
     tags?: PhotoUpdatetagsInput | string[]
   }
 
   export type PhotoUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    url?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
     tags?: PhotoUpdatetagsInput | string[]
   }
 
   export type PhotoCreateManyInput = {
     id?: number
     publishedAt: Date | string
-    url: string
+    imageUrl: string
     tags?: PhotoCreatetagsInput | string[]
   }
 
   export type PhotoUpdateManyMutationInput = {
     publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    url?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
     tags?: PhotoUpdatetagsInput | string[]
   }
 
   export type PhotoUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    url?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
     tags?: PhotoUpdatetagsInput | string[]
   }
 
@@ -2058,7 +2058,7 @@ export namespace Prisma {
   export type PhotoCountOrderByAggregateInput = {
     id?: SortOrder
     publishedAt?: SortOrder
-    url?: SortOrder
+    imageUrl?: SortOrder
     tags?: SortOrder
   }
 
@@ -2069,13 +2069,13 @@ export namespace Prisma {
   export type PhotoMaxOrderByAggregateInput = {
     id?: SortOrder
     publishedAt?: SortOrder
-    url?: SortOrder
+    imageUrl?: SortOrder
   }
 
   export type PhotoMinOrderByAggregateInput = {
     id?: SortOrder
     publishedAt?: SortOrder
-    url?: SortOrder
+    imageUrl?: SortOrder
   }
 
   export type PhotoSumOrderByAggregateInput = {

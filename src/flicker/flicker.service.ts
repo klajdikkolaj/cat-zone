@@ -48,4 +48,42 @@ export class FlickrService {
             throw error;
         }
     }
+
+    async getPhotos(params: { skip: number; take: number }) {
+        return this.prisma.photo.findMany({
+            skip: params.skip,
+            take: params.take,
+            orderBy: { publishedAt: 'desc' },
+        });
+    }
+
+    async getTags() {
+        const tags = await this.prisma.$queryRaw`
+      SELECT UNNEST(tags) as tag, COUNT(*) as count
+      FROM "Photo"
+      GROUP BY tag
+      ORDER BY count DESC
+      LIMIT 10;
+    `;
+        return tags;
+    }
+
+    async getPhotosByTag(tag: string, params: { skip: number; take: number }) {
+        return this.prisma.photo.findMany({
+            where: {
+                tags: {
+                    has: tag,
+                },
+            },
+            skip: params.skip,
+            take: params.take,
+            orderBy: { publishedAt: 'desc' },
+        });
+    }
+
+    async deletePhoto(id: number) {
+        return this.prisma.photo.delete({
+            where: { id },
+        });
+    }
 }
