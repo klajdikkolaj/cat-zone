@@ -6,7 +6,6 @@ export class FlickrController {
     constructor(private readonly flickrService: FlickrService) {}
     @Get()
     async getPhotos(@Query('page') page: number = 1) {
-        console.log('Entered getPhotos');
         const take = 10;
         const skip = (page - 1) * take;
         return this.flickrService.getPhotos({ skip, take });
@@ -14,7 +13,6 @@ export class FlickrController {
 
     @Get('tags')
     async getTags() {
-        console.log('Entered getTags');
         return this.flickrService.getTags();
     }
 
@@ -26,7 +24,8 @@ export class FlickrController {
     }
 
     @Delete(':id')
-    async deletePhoto(@Param('id') id: number) {
-        return this.flickrService.deletePhoto(id);
+    async deletePhoto(@Param('id') id: string) {
+        const numberId = Number(id)
+        return this.flickrService.deletePhoto(numberId);
     }
 }

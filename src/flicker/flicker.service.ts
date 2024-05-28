@@ -27,6 +27,7 @@ export class FlickrService {
                         method: 'flickr.photos.search',
                         api_key: this.apiKey,
                         tags: 'cat',
+                        extras: 'tags',
                         format: 'json',
                         nojsoncallback: 1,
                         per_page: 500,
@@ -38,7 +39,7 @@ export class FlickrService {
             const photos = response.data.photos.photo.map((item) => ({
                 publishedAt: new Date(),
                 imageUrl: `https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}.jpg`,
-                tags: ['cat'],
+                tags: item.tags.split(' '),
             }));
 
             await this.prisma.photo.createMany({
@@ -91,7 +92,7 @@ export class FlickrService {
 
     async deletePhoto(id: number) {
         return this.prisma.photo.delete({
-            where: { id },
+            where: { id},
         });
     }
 }
