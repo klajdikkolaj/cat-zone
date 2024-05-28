@@ -34,6 +34,7 @@ export class FlickrService {
                 }),
             );
 
+
             const photos = response.data.photos.photo.map((item) => ({
                 publishedAt: new Date(),
                 imageUrl: `https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}.jpg`,
@@ -50,22 +51,29 @@ export class FlickrService {
     }
 
     async getPhotos(params: { skip: number; take: number }) {
-        return this.prisma.photo.findMany({
+        const photos = await this.prisma.photo.findMany({
             skip: params.skip,
             take: params.take,
             orderBy: { publishedAt: 'desc' },
         });
+        return photos.map(photo => ({
+            ...photo,
+            id: photo.id.toString(), // Convert BigInt to string
+        }));
     }
 
     async getTags() {
-        const tags = await this.prisma.$queryRaw`
+        const tags:any[] = await this.prisma.$queryRaw`
       SELECT UNNEST(tags) as tag, COUNT(*) as count
       FROM "Photo"
       GROUP BY tag
       ORDER BY count DESC
       LIMIT 10;
     `;
-        return tags;
+        return tags.map(tag => ({
+            tag: tag.tag,
+            count: Number(tag.count), // Convert BigInt to number
+        }));
     }
 
     async getPhotosByTag(tag: string, params: { skip: number; take: number }) {

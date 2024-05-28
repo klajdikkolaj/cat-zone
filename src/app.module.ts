@@ -14,7 +14,7 @@ import {FlickrService} from "./flicker/flicker.service";
   ],
 })
 export class AppModule implements OnModuleInit {
-  constructor(private flickrService: FlickrService) {}
+  constructor(private flickrService: FlickrService) {console.log('AppModule initialized');}
 
   async onModuleInit() {
     await this.flickrService.fetchAndStorePhotos();
